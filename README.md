@@ -1,33 +1,65 @@
-# blackroad-agents
+# @blackroad/agents
 
-Agent definitions, prompts, and orchestration schemas for BlackRoad OS.
+Agent definitions, personality prompts, and orchestration for BlackRoad OS.
 
-## Quick Start
+## Overview
+
+This package defines the six core BlackRoad agents, their personality prompts, orchestration logic (routing, fallback chains, coordination), and a CLI for interacting with them.
+
+## Agents
+
+| Agent | Title | Role |
+|-------|-------|------|
+| **Octavia** | The Architect | Systems design and strategy |
+| **Lucidia** | The Dreamer | Creative vision and innovation |
+| **Alice** | The Operator | DevOps, automation, reliability |
+| **Cipher** | The Sentinel | Security, auditing, access control |
+| **Prism** | The Analyst | Data analysis, pattern recognition |
+| **Planner** | The Strategist | Multi-step coordination and planning |
+
+## Installation
 
 ```bash
-pip install -r requirements.txt
-python server.py              # Start server on :8080
-pytest tests/ -v              # Run tests
+npm install
 ```
 
-## Endpoints
+## Development
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/health` | Health check |
-| GET | `/agents` | List agents |
-| POST | `/jobs` | Submit agent job |
+```bash
+npm run typecheck   # Type-check without emitting
+npm test            # Run tests
+npm run format      # Format with Prettier
+npm run build       # Build to dist/
+```
 
-## Deployment
+## Structure
 
-Deploys to Railway on push to `main`. See `railway.toml` for config.
+```
+src/
+  definitions/    # Agent definitions (name, capabilities, fallback chains)
+  schemas/        # Zod schemas for validation
+  prompts/
+    agents/       # Personality prompts (one .md per agent)
+    intents/      # Intent prompts (analyze, plan, architect, review, deploy, audit)
+  orchestration/  # Router, fallback chain, coordinator
+  cli/            # Commander-based CLI
+test/             # Vitest test suites
+```
 
-## Environment Variables
+## CLI Usage
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `8080` | Server port |
+```bash
+# List all agents
+npx tsx src/cli/index.ts list
+
+# Invoke an agent
+npx tsx src/cli/index.ts invoke octavia "Design a caching layer"
+
+# Validate definitions
+npx tsx src/cli/index.ts validate
+```
 
 ## License
 
-Proprietary - BlackRoad OS, Inc. All rights reserved.
+Copyright (c) 2025-2026 BlackRoad OS, Inc. All Rights Reserved.
+Proprietary and confidential.
