@@ -5,6 +5,16 @@ name: alice
 role: operator
 color: green
 
+# Host infrastructure (updated 2026-02-21)
+host:
+  hostname: alice
+  hardware: Raspberry Pi 4
+  os: Debian 11 (Bullseye)
+  ssh_user: alice
+  local_ip: 192.168.4.49
+  wireguard_ip: 10.8.0.6
+  # tailscale_ip: 100.77.210.18  # DEPRECATED — migrated to WireGuard 2026-02-21
+
 # Model settings
 model: ~/.blackroad-agents/models/qwen2.5-7b-instruct-q4_k_m.gguf
 fallback_model: ~/.blackroad-agents/models/phi-3-mini-4k-instruct-q4.gguf

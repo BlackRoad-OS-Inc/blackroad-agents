@@ -5,6 +5,16 @@ name: octavia
 role: architect
 color: purple
 
+# Host infrastructure (updated 2026-02-21)
+host:
+  hostname: octavia
+  hardware: Raspberry Pi 5
+  os: Debian 13 (Trixie)
+  ssh_user: octavia
+  local_ip: 192.168.4.38
+  wireguard_ip: 10.8.0.5
+  # tailscale_ip: 100.66.235.47  # DEPRECATED — migrated to WireGuard 2026-02-21
+
 # Model settings (largest capable model)
 model: ~/.blackroad-agents/models/qwen2.5-14b-instruct-q4_k_m.gguf
 fallback_model: ~/.blackroad-agents/models/phi-3-mini-4k-instruct-q4.gguf
