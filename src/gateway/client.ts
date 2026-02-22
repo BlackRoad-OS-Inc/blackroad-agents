@@ -26,7 +26,17 @@ export interface ChatResponse {
   }
 }
 
-export interface GatewayError {
+export interface HealthResponse {
+  status: string
+  version: string
+  uptime: number
+}
+
+export interface ModelsResponse {
+  models: Array<{ id: string; provider: string }>
+}
+
+export interface GatewayErrorBody {
   code: string
   message: string
   status: number
@@ -52,7 +62,7 @@ export class GatewayClient {
     })
 
     if (!res.ok) {
-      const err = (await res.json().catch(() => ({}))) as Partial<GatewayError>
+      const err = (await res.json().catch(() => ({}))) as Partial<GatewayErrorBody>
       throw new Error(
         `Gateway error ${res.status}: ${err.message ?? res.statusText}`
       )
@@ -61,18 +71,18 @@ export class GatewayClient {
     return res.json() as Promise<ChatResponse>
   }
 
-  async health(): Promise<{ status: string; version: string; uptime: number }> {
+  async health(): Promise<HealthResponse> {
     const res = await fetch(`${this.baseUrl}/health`)
     if (!res.ok) throw new Error(`Gateway unreachable: ${res.status}`)
-    return res.json()
+    return res.json() as Promise<HealthResponse>
   }
 
-  async listModels(): Promise<{ models: Array<{ id: string; provider: string }> }> {
+  async listModels(): Promise<ModelsResponse> {
     const res = await fetch(`${this.baseUrl}/v1/models`, {
       headers: { "X-Agent-Id": this.agentId },
     })
     if (!res.ok) throw new Error(`Failed to list models: ${res.status}`)
-    return res.json()
+    return res.json() as Promise<ModelsResponse>
   }
 }
 
