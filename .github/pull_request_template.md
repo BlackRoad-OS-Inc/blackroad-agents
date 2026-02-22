@@ -1,9 +1,23 @@
 ## Summary
-## Type of Change
-- [ ] New agent / Modified agent
-- [ ] Prompt change
-- [ ] Orchestration change
+<!-- What does this PR do? -->
+
+## Type
+- [ ] 🚀 Feature
+- [ ] 🐛 Bug Fix
+- [ ] 🔧 Chore / Refactor
+- [ ] 📚 Documentation
+- [ ] 🔒 Security
+
+## Changes
+<!-- List key changes -->
+-
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Manual testing done
+- [ ] No regressions
+
 ## Checklist
-- [ ] `npm run typecheck` passes
-- [ ] `npm run test` passes
-- [ ] Prompt validation passes
+- [ ] CHANGELOG.md updated
+- [ ] No secrets committed
+- [ ] CI passes

@@ -1,65 +1,59 @@
-# @blackroad/agents
+# blackroad-agents
 
-Agent definitions, personality prompts, and orchestration for BlackRoad OS.
+> Agent definitions, prompts, CECE identity, and orchestration schemas for BlackRoad OS.
+
+[![CI](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml)
 
 ## Overview
 
-This package defines the six core BlackRoad agents, their personality prompts, orchestration logic (routing, fallback chains, coordination), and a CLI for interacting with them.
+Defines the 6 core BlackRoad agents and the CECE portable identity system. All agent configs, prompts, and coordination logic live here.
 
-## Agents
+## Core Agents
 
-| Agent | Title | Role |
-|-------|-------|------|
-| **Octavia** | The Architect | Systems design and strategy |
-| **Lucidia** | The Dreamer | Creative vision and innovation |
-| **Alice** | The Operator | DevOps, automation, reliability |
-| **Cipher** | The Sentinel | Security, auditing, access control |
-| **Prism** | The Analyst | Data analysis, pattern recognition |
-| **Planner** | The Strategist | Multi-step coordination and planning |
-
-## Installation
-
-```bash
-npm install
-```
-
-## Development
-
-```bash
-npm run typecheck   # Type-check without emitting
-npm test            # Run tests
-npm run format      # Format with Prettier
-npm run build       # Build to dist/
-```
+| Agent | Role | Color |
+|-------|------|-------|
+| **LUCIDIA** | Philosopher / Coordinator | 🔴 |
+| **ALICE** | Executor / Router | 🔵 |
+| **OCTAVIA** | Operator / Compute | 🟢 |
+| **PRISM** | Analyst / Patterns | 🟡 |
+| **ECHO** | Librarian / Memory | 🟣 |
+| **CIPHER** | Guardian / Security | ⚫ |
 
 ## Structure
 
 ```
-src/
-  definitions/    # Agent definitions (name, capabilities, fallback chains)
-  schemas/        # Zod schemas for validation
-  prompts/
-    agents/       # Personality prompts (one .md per agent)
-    intents/      # Intent prompts (analyze, plan, architect, review, deploy, audit)
-  orchestration/  # Router, fallback chain, coordinator
-  cli/            # Commander-based CLI
-test/             # Vitest test suites
+blackroad-agents/
+├── src/             # Agent runtime source (TypeScript)
+├── agents/          # Per-agent definitions & prompts
+├── coordination/    # Multi-agent coordination logic
+├── registry/        # Agent + hardware registries
+├── scripts/         # Agent utility scripts (RPG, conductor, etc.)
+├── shared/          # Inter-agent messaging (inbox/outbox)
+└── test/            # Test suite
 ```
 
-## CLI Usage
+## CECE Identity
+
+`cece-profile.json` defines the portable CECE identity — persistent across providers.
 
 ```bash
-# List all agents
-npx tsx src/cli/index.ts list
-
-# Invoke an agent
-npx tsx src/cli/index.ts invoke octavia "Design a caching layer"
-
-# Validate definitions
-npx tsx src/cli/index.ts validate
+br cece whoami         # Show identity
+br cece relationship list  # List relationships
+br cece export         # Export to JSON
 ```
 
-## License
+## Quick Start
 
-Copyright (c) 2025-2026 BlackRoad OS, Inc. All Rights Reserved.
-Proprietary and confidential.
+```bash
+npm install
+npm test           # Run tests
+npm run build      # Compile TypeScript
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+© BlackRoad OS, Inc. — All rights reserved. Proprietary.
