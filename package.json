@@ -5,8 +5,20 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./registry": {
+      "import": "./dist/registry/server.js",
+      "types": "./dist/registry/server.d.ts"
+    }
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "dev:registry": "tsx watch src/registry/server.ts",
+    "start": "node dist/registry/server.js",
     "build": "tsc",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
@@ -15,6 +27,18 @@
   "engines": { "node": ">=22.0.0" },
   "license": "UNLICENSED",
   "private": true,
-  "dependencies": { "zod": "^3.24.0", "commander": "^13.0.0", "chalk": "^5.4.0" },
-  "devDependencies": { "@types/node": "^22.0.0", "typescript": "^5.7.0", "vitest": "^3.0.0", "tsx": "^4.19.0", "prettier": "^3.4.0" }
+  "dependencies": {
+    "zod": "^3.24.0",
+    "commander": "^13.0.0",
+    "chalk": "^5.4.0",
+    "hono": "^4.7.0",
+    "@hono/node-server": "^1.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "tsx": "^4.19.0",
+    "prettier": "^3.4.0"
+  }
 }
