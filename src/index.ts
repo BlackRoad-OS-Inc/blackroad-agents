@@ -14,3 +14,11 @@ export {
   FallbackChain,
   Coordinator,
 } from './orchestration/index.js'
+export {
+  GatewayClient,
+  createGatewayClient,
+  type ChatMessage,
+  type ChatRequest,
+  type ChatResponse,
+} from './gateway/client.js'
+
