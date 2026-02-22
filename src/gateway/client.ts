@@ -19,10 +19,11 @@ export interface ChatResponse {
   id: string
   model: string
   content: string
+  provider?: string
   usage?: {
-    promptTokens: number
-    completionTokens: number
-    totalTokens: number
+    prompt_tokens: number
+    completion_tokens: number
+    total_tokens: number
   }
 }
 
@@ -48,17 +49,24 @@ export class GatewayClient {
 
   constructor(agentId: string, gatewayUrl?: string) {
     this.agentId = agentId
-    this.baseUrl = gatewayUrl ?? process.env["BLACKROAD_GATEWAY_URL"] ?? "http://127.0.0.1:8787"
+    this.baseUrl = (gatewayUrl ?? process.env["BLACKROAD_GATEWAY_URL"] ?? "http://127.0.0.1:8787").replace(/\/$/, "")
   }
 
   async chat(request: ChatRequest): Promise<ChatResponse> {
-    const res = await fetch(`${this.baseUrl}/v1/chat`, {
+    const res = await fetch(`${this.baseUrl}/v1/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.agentId}`,
         "X-Agent-Id": this.agentId,
       },
-      body: JSON.stringify(request),
+      body: JSON.stringify({
+        model: request.model,
+        messages: request.messages,
+        temperature: request.temperature,
+        max_tokens: request.maxTokens,
+        stream: request.stream ?? false,
+      }),
     })
 
     if (!res.ok) {
@@ -72,14 +80,26 @@ export class GatewayClient {
   }
 
   async health(): Promise<HealthResponse> {
-    const res = await fetch(`${this.baseUrl}/health`)
+    const res = await fetch(`${this.baseUrl}/v1/health`)
     if (!res.ok) throw new Error(`Gateway unreachable: ${res.status}`)
     return res.json() as Promise<HealthResponse>
   }
 
+  async isReady(): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.baseUrl}/v1/health/ready`)
+      return res.ok
+    } catch {
+      return false
+    }
+  }
+
   async listModels(): Promise<ModelsResponse> {
     const res = await fetch(`${this.baseUrl}/v1/models`, {
-      headers: { "X-Agent-Id": this.agentId },
+      headers: {
+        "Authorization": `Bearer ${this.agentId}`,
+        "X-Agent-Id": this.agentId,
+      },
     })
     if (!res.ok) throw new Error(`Failed to list models: ${res.status}`)
     return res.json() as Promise<ModelsResponse>
@@ -90,4 +110,3 @@ export class GatewayClient {
 export function createGatewayClient(agentId: string): GatewayClient {
   return new GatewayClient(agentId)
 }
-
