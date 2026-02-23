@@ -4,13 +4,14 @@
 
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { z } from 'zod'
 import { agents, getAgent } from '../definitions/index.js'
 import { TaskRouter } from '../orchestration/router.js'
 import { createGatewayClient } from '../gateway/client.js'
 
 const PORT = parseInt(process.env.REGISTRY_PORT ?? '3001', 10)
-const HOST = process.env.REGISTRY_HOST ?? '127.0.0.1'
+const HOST = process.env.REGISTRY_HOST ?? '0.0.0.0'
 const startTime = Date.now()
 
 const router = new TaskRouter()
@@ -23,6 +24,31 @@ const TaskRequestSchema = z.object({
 })
 
 const app = new Hono()
+
+// ─── CORS — allow web dashboard and local dev ─────────────────────────────────
+
+app.use(
+  '*',
+  cors({
+    origin: (origin) => {
+      // Allow Cloudflare Pages domains, local dev, and Railway
+      if (!origin) return '*'
+      if (
+        origin.endsWith('.pages.dev') ||
+        origin.endsWith('.blackroad.io') ||
+        origin.endsWith('.blackroad.ai') ||
+        origin.startsWith('http://localhost:') ||
+        origin.startsWith('http://127.0.0.1:')
+      ) {
+        return origin
+      }
+      return null
+    },
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 86400,
+  }),
+)
 
 // ─── Health ─────────────────────────────────────────────────────────────────
 
@@ -46,6 +72,7 @@ app.get('/agents', (c) => {
     description: a.description,
     capabilities: a.capabilities,
     providers: a.providers,
+    color: a.color,
     status: 'available' as const,
   }))
   return c.json({ agents: list, count: list.length })

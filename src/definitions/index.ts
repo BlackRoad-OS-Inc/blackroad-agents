@@ -5,6 +5,8 @@ import { lucidia } from './lucidia.js'
 import { alice } from './alice.js'
 import { cipher } from './cipher.js'
 import { prism } from './prism.js'
+import { echo } from './echo.js'
+import { aria } from './aria.js'
 import { planner } from './planner.js'
 
 export const agents = new Map<string, AgentDefinition>([
@@ -13,6 +15,8 @@ export const agents = new Map<string, AgentDefinition>([
   ['alice', alice],
   ['cipher', cipher],
   ['prism', prism],
+  ['echo', echo],
+  ['aria', aria],
   ['planner', planner],
 ])
 
@@ -20,4 +24,4 @@ export function getAgent(name: string): AgentDefinition | undefined {
   return agents.get(name)
 }
 
-export { octavia, lucidia, alice, cipher, prism, planner }
+export { octavia, lucidia, alice, cipher, prism, echo, aria, planner }
