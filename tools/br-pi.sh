@@ -12,13 +12,17 @@ PI_NODES=(
 )
 
 # Fetch status via SSH tunnel (192.168.4.x unreachable directly from macOS)
-# alice uses SSH config alias with longer timeout
+# alice is fetched via aria64 relay (much faster - no SSH banner delay)
 ssh_status() {
   local user_host="$1" port="$2"
-  local timeout=8
-  [[ "$user_host" == "alice" ]] && timeout=25
-  ssh -o ConnectTimeout=$timeout -o StrictHostKeyChecking=no "$user_host" \
-    "curl -s http://localhost:$port/status 2>/dev/null" 2>/dev/null
+  if [[ "$user_host" == "alice" ]]; then
+    # Relay alice status check through aria64 (same subnet, fast)
+    ssh -o ConnectTimeout=8 -o StrictHostKeyChecking=no alexa@192.168.4.38 \
+      "curl -s --max-time 5 http://192.168.4.49:$port/status 2>/dev/null" 2>/dev/null
+  else
+    ssh -o ConnectTimeout=8 -o StrictHostKeyChecking=no "$user_host" \
+      "curl -s http://localhost:$port/status 2>/dev/null" 2>/dev/null
+  fi
 }
 
 cmd_status() {
@@ -26,7 +30,12 @@ cmd_status() {
   echo "══════════════════════════════════════"
   for node in "${PI_NODES[@]}"; do
     IFS=: read label user_host port role model <<< "$node"
-    local ip="${user_host##*@}"
+    # Resolve IP: if user_host has @, extract IP; otherwise hardcode known IPs
+    case "$label" in
+      aria64) ip="192.168.4.38" ;;
+      alice)  ip="192.168.4.49" ;;
+      *)      ip="${user_host##*@}" ;;
+    esac
     if ping -c 1 -W 2 "$ip" &>/dev/null; then
       data=$(ssh_status "$user_host" "$port")
       if [ -n "$data" ]; then
