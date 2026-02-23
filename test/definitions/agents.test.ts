@@ -4,8 +4,8 @@ import { agents, getAgent } from '../../src/definitions/index.js'
 import { AgentDefinitionSchema } from '../../src/schemas/agent.js'
 
 describe('Agent Definitions', () => {
-  it('should have exactly 6 agents', () => {
-    expect(agents.size).toBe(6)
+  it('should have exactly 8 agents', () => {
+    expect(agents.size).toBe(8)
   })
 
   it('should include all expected agents', () => {
@@ -15,6 +15,8 @@ describe('Agent Definitions', () => {
     expect(names).toContain('alice')
     expect(names).toContain('cipher')
     expect(names).toContain('prism')
+    expect(names).toContain('echo')
+    expect(names).toContain('aria')
     expect(names).toContain('planner')
   })
 
