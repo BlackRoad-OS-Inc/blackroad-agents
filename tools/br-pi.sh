@@ -4,16 +4,20 @@
 GREEN='\033[0;32m'; RED='\033[0;31m'; YELLOW='\033[1;33m'
 CYAN='\033[0;36m'; BLUE='\033[0;34m'; PURPLE='\033[0;35m'; NC='\033[0m'
 
-# Node config: label:ssh_user@ip:local_port:role:model
+# Node config: label:ssh_host_alias:local_port:role:model
+# alice uses SSH config alias (user=blackroad, id_ed25519) - slow to connect, use long timeout
 PI_NODES=(
   "aria64:alexa@192.168.4.38:8182:Primary(22500 agents):qwen2.5:3b"
-  "alice:alice@192.168.4.49:8183:Secondary:llama3.2:1b"
+  "alice:alice:8183:Secondary(relay→aria64):relay"
 )
 
-# Fetch status via SSH (works when 192.168.4.x unreachable directly)
+# Fetch status via SSH tunnel (192.168.4.x unreachable directly from macOS)
+# alice uses SSH config alias with longer timeout
 ssh_status() {
   local user_host="$1" port="$2"
-  ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no "$user_host" \
+  local timeout=8
+  [[ "$user_host" == "alice" ]] && timeout=25
+  ssh -o ConnectTimeout=$timeout -o StrictHostKeyChecking=no "$user_host" \
     "curl -s http://localhost:$port/status 2>/dev/null" 2>/dev/null
 }
 
