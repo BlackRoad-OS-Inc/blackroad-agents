@@ -23,6 +23,40 @@ const TaskRequestSchema = z.object({
   context: z.record(z.unknown()).optional(),
 })
 
+// ─── Task Marketplace ────────────────────────────────────────────────────────
+
+type TaskStatus = 'pending' | 'claimed' | 'completed' | 'failed'
+
+interface MarketplaceTask {
+  id: string
+  title: string
+  description: string
+  priority: 'low' | 'normal' | 'high'
+  tags: string[]
+  requiredCapabilities: string[]
+  status: TaskStatus
+  assignedAgent: string | null
+  createdAt: string
+  updatedAt: string
+  result: string | null
+}
+
+const marketplaceTasks = new Map<string, MarketplaceTask>()
+
+const CreateTaskSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().default(''),
+  priority: z.enum(['low', 'normal', 'high']).default('normal'),
+  tags: z.array(z.string()).default([]),
+  requiredCapabilities: z.array(z.string()).default([]),
+})
+
+const UpdateTaskSchema = z.object({
+  status: z.enum(['claimed', 'completed', 'failed']),
+  assignedAgent: z.string().optional(),
+  result: z.string().optional(),
+})
+
 const app = new Hono()
 
 // ─── CORS — allow web dashboard and local dev ─────────────────────────────────
@@ -31,7 +65,6 @@ app.use(
   '*',
   cors({
     origin: (origin) => {
-      // Allow Cloudflare Pages domains, local dev, and Railway
       if (!origin) return '*'
       if (
         origin.endsWith('.pages.dev') ||
@@ -44,7 +77,7 @@ app.use(
       }
       return null
     },
-    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
     maxAge: 86400,
   }),
@@ -59,6 +92,7 @@ app.get('/health', (c) =>
     version: '0.1.0',
     uptime: Math.floor((Date.now() - startTime) / 1000),
     agentCount: agents.size,
+    taskCount: marketplaceTasks.size,
   }),
 )
 
@@ -154,6 +188,77 @@ app.post('/route', async (c) => {
     reason: decision.reason,
     agent: decision.agent,
   })
+})
+
+// ─── Task Marketplace ────────────────────────────────────────────────────────
+
+// POST /tasks — create a new task
+app.post('/tasks', async (c) => {
+  const body = await c.req.json()
+  const parsed = CreateTaskSchema.safeParse(body)
+  if (!parsed.success) {
+    return c.json(
+      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      400,
+    )
+  }
+
+  const now = new Date().toISOString()
+  const task: MarketplaceTask = {
+    id: `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    ...parsed.data,
+    status: 'pending',
+    assignedAgent: null,
+    createdAt: now,
+    updatedAt: now,
+    result: null,
+  }
+  marketplaceTasks.set(task.id, task)
+
+  return c.json({ task }, 201)
+})
+
+// GET /tasks — list all tasks (with optional status filter)
+app.get('/tasks', (c) => {
+  const statusFilter = c.req.query('status') as TaskStatus | undefined
+  const tasks = Array.from(marketplaceTasks.values()).filter(
+    (t) => !statusFilter || t.status === statusFilter,
+  )
+  return c.json({ tasks, count: tasks.length })
+})
+
+// GET /tasks/:id — get single task
+app.get('/tasks/:id', (c) => {
+  const task = marketplaceTasks.get(c.req.param('id'))
+  if (!task) return c.json({ error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } }, 404)
+  return c.json({ task })
+})
+
+// PATCH /tasks/:id — claim or complete a task
+app.patch('/tasks/:id', async (c) => {
+  const task = marketplaceTasks.get(c.req.param('id'))
+  if (!task) return c.json({ error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } }, 404)
+
+  const body = await c.req.json()
+  const parsed = UpdateTaskSchema.safeParse(body)
+  if (!parsed.success) {
+    return c.json(
+      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      400,
+    )
+  }
+
+  const { status, assignedAgent, result } = parsed.data
+  const updated: MarketplaceTask = {
+    ...task,
+    status,
+    assignedAgent: assignedAgent ?? task.assignedAgent,
+    result: result ?? task.result,
+    updatedAt: new Date().toISOString(),
+  }
+  marketplaceTasks.set(task.id, updated)
+
+  return c.json({ task: updated })
 })
 
 // ─── Start ───────────────────────────────────────────────────────────────────
