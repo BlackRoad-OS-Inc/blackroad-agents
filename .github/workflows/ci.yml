@@ -3,8 +3,15 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'alice-worlds/**'
+      - '**/*.md'
+      - 'docs/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'alice-worlds/**'
+      - '**/*.md'
 
 jobs:
   lint-test:
