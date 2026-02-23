@@ -18,9 +18,10 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "dev:registry": "tsx watch src/registry/server.ts",
-    "start": "node dist/registry/server.js",
     "build": "tsc",
-    "test": "vitest run",
+    "start": "node dist/registry/server.js",
+    "test": "vitest run test --exclude 'test/e2e/**'",
+    "test:e2e": "vitest run test/e2e/ --reporter=verbose",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },

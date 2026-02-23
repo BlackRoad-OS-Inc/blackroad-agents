@@ -263,9 +263,11 @@ app.patch('/tasks/:id', async (c) => {
 
 // ─── Start ───────────────────────────────────────────────────────────────────
 
-serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
-  console.log(`[blackroad-agents] Registry listening on http://${info.address}:${info.port}`)
-  console.log(`[blackroad-agents] ${agents.size} agents loaded`)
-})
+if (!process.env['TEST_MODE']) {
+  serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
+    console.log(`[blackroad-agents] Registry listening on http://${info.address}:${info.port}`)
+    console.log(`[blackroad-agents] ${agents.size} agents loaded`)
+  })
+}
 
 export { app }
