@@ -8,7 +8,7 @@ CYAN='\033[0;36m'; BLUE='\033[0;34m'; PURPLE='\033[0;35m'; NC='\033[0m'
 # alice uses SSH config alias (user=blackroad, id_ed25519) - slow to connect, use long timeout
 PI_NODES=(
   "aria64:alexa@192.168.4.38:8182:Primary(22500 agents):qwen2.5:3b"
-  "alice:alice:8183:Secondary(relay→aria64):relay"
+  "alice:alice:8184:Secondary(relay→aria64):relay"
 )
 
 # Fetch status via SSH tunnel (192.168.4.x unreachable directly from macOS)
