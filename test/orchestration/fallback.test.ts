@@ -48,7 +48,11 @@ describe('FallbackChain', () => {
   })
 
   it('should expose chain length', () => {
-    const chain = new FallbackChain([mockAgent('a'), mockAgent('b'), mockAgent('c')])
+    const chain = new FallbackChain([
+      mockAgent('a'),
+      mockAgent('b'),
+      mockAgent('c'),
+    ])
     expect(chain.length).toBe(3)
   })
 })

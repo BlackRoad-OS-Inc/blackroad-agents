@@ -18,11 +18,7 @@
     "zero_trust"
   ],
   "personality": "Trust nothing. Verify everything. Protect always.",
-  "primary_skills": [
-    "SECURITY",
-    "GATEWAY",
-    "COMPUTE"
-  ],
+  "primary_skills": ["SECURITY", "GATEWAY", "COMPUTE"],
   "bond_strength": 82,
   "zero_trust_enforcement": true,
   "policies": [

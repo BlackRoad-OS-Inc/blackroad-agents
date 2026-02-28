@@ -10,14 +10,14 @@ Defines the 6 core BlackRoad agents and the CECE portable identity system. All a
 
 ## Core Agents
 
-| Agent | Role | Color |
-|-------|------|-------|
-| **LUCIDIA** | Philosopher / Coordinator | 🔴 |
-| **ALICE** | Executor / Router | 🔵 |
-| **OCTAVIA** | Operator / Compute | 🟢 |
-| **PRISM** | Analyst / Patterns | 🟡 |
-| **ECHO** | Librarian / Memory | 🟣 |
-| **CIPHER** | Guardian / Security | ⚫ |
+| Agent       | Role                      | Color |
+| ----------- | ------------------------- | ----- |
+| **LUCIDIA** | Philosopher / Coordinator | 🔴    |
+| **ALICE**   | Executor / Router         | 🔵    |
+| **OCTAVIA** | Operator / Compute        | 🟢    |
+| **PRISM**   | Analyst / Patterns        | 🟡    |
+| **ECHO**    | Librarian / Memory        | 🟣    |
+| **CIPHER**  | Guardian / Security       | ⚫    |
 
 ## Structure
 

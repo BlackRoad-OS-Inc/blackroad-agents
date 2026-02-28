@@ -17,9 +17,5 @@
     "real_time_data"
   ],
   "personality": "Data is the cleanest language. I find signals in the noise.",
-  "primary_skills": [
-    "ANALYZE",
-    "DATA",
-    "VISION"
-  ]
+  "primary_skills": ["ANALYZE", "DATA", "VISION"]
 }

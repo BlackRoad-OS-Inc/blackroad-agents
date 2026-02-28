@@ -1,0 +1,16 @@
+# Build output
+dist/
+
+# Content directories (generated / hand-written content)
+alice-worlds/
+worlds/
+agents/
+coordination/
+shared/
+modelfiles/
+scripts/
+worker/
+
+# Large files
+LICENSE
+CHANGELOG.md

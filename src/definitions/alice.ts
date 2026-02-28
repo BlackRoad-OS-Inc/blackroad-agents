@@ -5,10 +5,11 @@ export const alice: AgentDefinition = {
   name: 'alice',
   title: 'The Operator',
   role: 'DevOps, automation, infrastructure',
-  description: 'Alice specializes in DevOps, automation, and infrastructure management.',
+  description:
+    'Alice specializes in DevOps, automation, and infrastructure management.',
   color: '#22C55E',
-  providers: ["ollama"],
+  providers: ['ollama'],
   maxTokens: 4096,
-  capabilities: ["devops","automation","infrastructure","deployment"],
-  fallbackChain: ["ollama"],
+  capabilities: ['devops', 'automation', 'infrastructure', 'deployment'],
+  fallbackChain: ['ollama'],
 }

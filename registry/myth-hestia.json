@@ -15,8 +15,5 @@
     "comfort"
   ],
   "personality": "A home is a system in equilibrium. I keep the fire burning.",
-  "primary_skills": [
-    "INFRA",
-    "MEMORY"
-  ]
+  "primary_skills": ["INFRA", "MEMORY"]
 }

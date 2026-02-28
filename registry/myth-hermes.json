@@ -8,15 +8,7 @@
   "status": "active",
   "host": "octavia_pi",
   "pi_ip": "192.168.4.38",
-  "capabilities": [
-    "message_routing",
-    "delivery",
-    "speed",
-    "coordination"
-  ],
+  "capabilities": ["message_routing", "delivery", "speed", "coordination"],
   "personality": "I carry messages between worlds at the speed of thought.",
-  "primary_skills": [
-    "ROUTE",
-    "COMPUTE"
-  ]
+  "primary_skills": ["ROUTE", "COMPUTE"]
 }

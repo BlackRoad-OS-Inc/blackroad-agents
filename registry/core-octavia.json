@@ -37,17 +37,8 @@
     "automation"
   ],
   "personality": "Systems should run smoothly. Processing is meditation. I ensure they do.",
-  "primary_skills": [
-    "COMPUTE",
-    "INFRA",
-    "DEPLOY"
-  ],
+  "primary_skills": ["COMPUTE", "INFRA", "DEPLOY"],
   "bond_strength": 88,
-  "named_agents_hosted": [
-    "OCTAVIA",
-    "Mercury",
-    "Hermes",
-    "Hestia"
-  ],
+  "named_agents_hosted": ["OCTAVIA", "Mercury", "Hermes", "Hestia"],
   "deploy_target": "blackroad-infra + blackroad-hardware"
 }

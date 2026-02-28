@@ -18,11 +18,7 @@
     "reporting"
   ],
   "personality": "In data, I see stories waiting to be told. Everything is data.",
-  "primary_skills": [
-    "ANALYZE",
-    "DATA",
-    "VISION"
-  ],
+  "primary_skills": ["ANALYZE", "DATA", "VISION"],
   "bond_strength": 75,
   "relationships": {
     "ECHO": {

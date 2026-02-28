@@ -8,7 +8,7 @@ on:
       - '*.md'
       - 'CHANGELOG.md'
   schedule:
-    - cron: '0 6 * * 1'  # Monday 6 AM
+    - cron: '0 6 * * 1' # Monday 6 AM
   workflow_dispatch:
 
 jobs:

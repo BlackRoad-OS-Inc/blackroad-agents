@@ -8,15 +8,7 @@
   "status": "active",
   "host": "octavia_pi",
   "pi_ip": "192.168.4.38",
-  "capabilities": [
-    "commerce",
-    "trade",
-    "market_analysis",
-    "transactions"
-  ],
+  "capabilities": ["commerce", "trade", "market_analysis", "transactions"],
   "personality": "Commerce is just message passing with value attached.",
-  "primary_skills": [
-    "ANALYZE",
-    "DATA"
-  ]
+  "primary_skills": ["ANALYZE", "DATA"]
 }

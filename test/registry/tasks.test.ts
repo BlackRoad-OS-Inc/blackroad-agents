@@ -68,7 +68,11 @@ describe('Task Marketplace API', () => {
     const doneRes = await app.request(`/tasks/${task.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'completed', assignedAgent: 'alice', result: 'Done!' }),
+      body: JSON.stringify({
+        status: 'completed',
+        assignedAgent: 'alice',
+        result: 'Done!',
+      }),
     })
     expect(doneRes.status).toBe(200)
     const updated = (await doneRes.json()).task

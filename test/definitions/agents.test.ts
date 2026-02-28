@@ -39,13 +39,19 @@ describe('Agent Definitions', () => {
 
   it('should have non-empty fallback chains', () => {
     for (const [name, agent] of agents) {
-      expect(agent.fallbackChain.length, `Agent "${name}" has empty fallback chain`).toBeGreaterThan(0)
+      expect(
+        agent.fallbackChain.length,
+        `Agent "${name}" has empty fallback chain`,
+      ).toBeGreaterThan(0)
     }
   })
 
   it('should have non-empty capabilities', () => {
     for (const [name, agent] of agents) {
-      expect(agent.capabilities.length, `Agent "${name}" has no capabilities`).toBeGreaterThan(0)
+      expect(
+        agent.capabilities.length,
+        `Agent "${name}" has no capabilities`,
+      ).toBeGreaterThan(0)
     }
   })
 })

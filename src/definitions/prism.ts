@@ -7,8 +7,8 @@ export const prism: AgentDefinition = {
   role: 'Data analysis, pattern recognition',
   description: 'Prism specializes in data analysis and pattern recognition.',
   color: '#F5A623',
-  providers: ["openai","ollama"],
+  providers: ['openai', 'ollama'],
   maxTokens: 4096,
-  capabilities: ["analysis","patterns","data","reporting"],
-  fallbackChain: ["openai","ollama"],
+  capabilities: ['analysis', 'patterns', 'data', 'reporting'],
+  fallbackChain: ['openai', 'ollama'],
 }

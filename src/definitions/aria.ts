@@ -5,7 +5,8 @@ export const aria: AgentDefinition = {
   name: 'aria',
   title: 'The Interface',
   role: 'Frontend development, UX design, user experience',
-  description: 'Aria specializes in frontend development, UI/UX design, and building beautiful user interfaces.',
+  description:
+    'Aria specializes in frontend development, UI/UX design, and building beautiful user interfaces.',
   color: '#818CF8',
   providers: ['anthropic', 'openai'],
   maxTokens: 4096,

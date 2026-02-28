@@ -21,12 +21,16 @@
     "build": "tsc",
     "start": "node dist/registry/server.js",
     "test": "vitest run test --exclude 'test/e2e/**'",
+    "test:watch": "vitest",
     "test:e2e": "vitest run test/e2e/ --reporter=verbose",
     "typecheck": "tsc --noEmit",
+    "lint": "prettier --check .",
     "format": "prettier --write ."
   },
-  "engines": { "node": ">=22.0.0" },
-  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "license": "PROPRIETARY",
   "private": true,
   "dependencies": {
     "zod": "^3.24.0",
