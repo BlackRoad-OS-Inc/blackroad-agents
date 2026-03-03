@@ -12,11 +12,12 @@ on:
     paths-ignore:
       - 'alice-worlds/**'
       - '**/*.md'
+  workflow_dispatch:
 
 jobs:
   lint-test:
     name: Lint & Test
-    runs-on: [self-hosted, linux, arm64, blackroad]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,7 +31,7 @@ jobs:
 
   e2e:
     name: E2E Tests
-    runs-on: [self-hosted, linux, arm64, blackroad]
+    runs-on: ubuntu-latest
     needs: lint-test
     steps:
       - uses: actions/checkout@v4

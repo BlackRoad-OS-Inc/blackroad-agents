@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackRoad Agents — AI Agent System</title>
+  <meta name="description" content="Six specialized AI agents for BlackRoad OS. Run locally with Ollama or connect to the BlackRoad Gateway." />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #222222;
+      --text: #f0f0f0;
+      --muted: #888;
+      --pink: #FF1D6C;
+      --blue: #3b82f6;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --purple: #a855f7;
+      --red: #ef4444;
+      --black: #1a1a1a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+    a { color: var(--pink); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+    }
+    header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    header h1 span { color: var(--pink); }
+    header p { color: var(--muted); margin-top: 0.5rem; font-size: 1.1rem; }
+
+    .badges {
+      display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .badges img { height: 20px; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+
+    section { margin-bottom: 3rem; }
+    h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .agent-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .agent-card .name { font-size: 1.1rem; font-weight: 700; }
+    .agent-card .role { color: var(--muted); font-size: 0.875rem; margin-top: 0.25rem; }
+    .agent-card .caps { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; }
+    .cap-tag {
+      background: var(--border);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    code { font-family: 'SF Mono', 'Fira Code', monospace; }
+    .comment { color: #666; }
+    .cmd { color: #a8e6a3; }
+    .str { color: #ffd9a3; }
+
+    .step { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .step-num {
+      flex-shrink: 0;
+      width: 2rem; height: 2rem;
+      background: var(--pink);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.875rem;
+    }
+    .step-body { flex: 1; }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    .model-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.875rem;
+    }
+    .model-name { font-weight: 600; }
+    .model-size { color: var(--muted); font-size: 0.75rem; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    #status-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    #status-dot.online { background: var(--green); }
+    #status-dot.offline { background: var(--red); }
+    #ollama-status { font-size: 0.875rem; color: var(--muted); }
+
+    .tab-bar { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    .tab {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+    }
+    .tab.active { color: var(--text); border-bottom-color: var(--pink); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>BlackRoad <span>Agents</span></h1>
+  <p>Six specialized AI agents — run locally with Ollama or connect to the BlackRoad Gateway</p>
+  <div class="badges">
+    <img src="https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml/badge.svg" alt="CI" />
+    <img src="https://img.shields.io/badge/Ollama-local%20AI-blue?logo=ollama" alt="Ollama" />
+    <img src="https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Python-3.11+-3776ab?logo=python" alt="Python" />
+    <img src="https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs" alt="Node.js" />
+  </div>
+</header>
+
+<main>
+
+  <!-- Ollama Status -->
+  <section>
+    <h2>🟢 Local Ollama Status</h2>
+    <p id="ollama-status">
+      <span id="status-dot"></span>
+      <span id="status-text">Checking local Ollama…</span>
+    </p>
+    <div id="ollama-models" style="margin-top:1rem; display:none;">
+      <h3>Installed Models</h3>
+      <div id="models-list" class="model-grid" style="margin-top:0.5rem;"></div>
+    </div>
+  </section>
+
+  <!-- Agents -->
+  <section>
+    <h2>🤖 The Six Agents</h2>
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="name">🔴 LUCIDIA</div>
+        <div class="role">Philosopher · Coordinator</div>
+        <div class="caps">
+          <span class="cap-tag">deep_analysis</span>
+          <span class="cap-tag">synthesis</span>
+          <span class="cap-tag">meta_cognition</span>
+          <span class="cap-tag">strategic_planning</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🔵 ALICE</div>
+        <div class="role">Executor · Router</div>
+        <div class="caps">
+          <span class="cap-tag">task_execution</span>
+          <span class="cap-tag">workflow_automation</span>
+          <span class="cap-tag">code_generation</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🟢 OCTAVIA</div>
+        <div class="role">Operator · Compute</div>
+        <div class="caps">
+          <span class="cap-tag">infrastructure</span>
+          <span class="cap-tag">deployment</span>
+          <span class="cap-tag">monitoring</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🟡 PRISM</div>
+        <div class="role">Analyst · Patterns</div>
+        <div class="caps">
+          <span class="cap-tag">data_analysis</span>
+          <span class="cap-tag">pattern_recognition</span>
+          <span class="cap-tag">visualization</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🟣 ECHO</div>
+        <div class="role">Librarian · Memory</div>
+        <div class="caps">
+          <span class="cap-tag">knowledge_retrieval</span>
+          <span class="cap-tag">summarization</span>
+          <span class="cap-tag">indexing</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="name">⚫ CIPHER</div>
+        <div class="role">Guardian · Security</div>
+        <div class="caps">
+          <span class="cap-tag">security_audit</span>
+          <span class="cap-tag">threat_detection</span>
+          <span class="cap-tag">encryption</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section>
+    <h2>🚀 Quick Start — Local Ollama</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Install Ollama</h3>
+        <pre><code><span class="comment"># macOS / Linux</span>
+<span class="cmd">curl -fsSL https://ollama.com/install.sh | sh</span>
+
+<span class="comment"># macOS (Homebrew)</span>
+<span class="cmd">brew install ollama</span></code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Pull a Model</h3>
+        <pre><code><span class="comment"># Recommended: small and fast</span>
+<span class="cmd">ollama pull llama3.2</span>
+
+<span class="comment"># For Pi / low-RAM devices</span>
+<span class="cmd">ollama pull qwen2.5:3b</span>
+
+<span class="comment"># For heavy analysis</span>
+<span class="cmd">ollama pull qwen2.5:7b</span></code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Clone &amp; Configure</h3>
+        <pre><code><span class="cmd">git clone https://github.com/BlackRoad-OS-Inc/blackroad-agents.git</span>
+<span class="cmd">cd blackroad-agents</span>
+<span class="cmd">cp .env.example .env</span>
+
+<span class="comment"># .env — point to your Ollama instance</span>
+OLLAMA_URL=<span class="str">http://localhost:11434</span></code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Run (TypeScript Registry)</h3>
+        <pre><code><span class="cmd">npm install</span>
+<span class="cmd">npm run build</span>
+<span class="cmd">npm start</span>   <span class="comment"># starts registry on http://localhost:3001</span>
+
+<span class="comment"># Run tests</span>
+<span class="cmd">npm test</span></code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Run (Python Agents)</h3>
+        <pre><code><span class="cmd">pip install httpx</span>
+
+<span class="comment"># Python — agents auto-detect Ollama</span>
+<span class="cmd">python3 -c "
+import asyncio, os
+os.environ['OLLAMA_URL'] = 'http://localhost:11434'
+from src.agents import Lucidia
+
+async def main():
+    agent = Lucidia()
+    reply = await agent.chat('What is the meaning of intelligence?')
+    print(reply)
+
+asyncio.run(main())
+"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section>
+    <h2>🏗️ Architecture</h2>
+    <pre><code>                ┌─────────────────────────────────┐
+                │      blackroad-agents repo       │
+                │                                  │
+  TypeScript ──►│  Registry API  (port 3001)       │
+                │  Agent definitions (8 agents)    │
+                │  Task marketplace                │
+                │  Orchestration / fallback        │
+                └─────────────────────────────────┘
+                              │
+                              ▼
+  Python ──────►  src/agents/ (6 specialized agents)
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+           Ollama (local)        BlackRoad Gateway
+           port 11434            port 8787
+           llama3.2 / qwen       (routes to cloud AI)
+</code></pre>
+  </section>
+
+  <!-- Recommended Models -->
+  <section>
+    <h2>🦙 Recommended Ollama Models</h2>
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="model-name">llama3.2</div>
+        <div class="model-size">2GB · General purpose</div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">qwen2.5:3b</div>
+        <div class="model-size">1.9GB · Pi-friendly</div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">qwen2.5:7b</div>
+        <div class="model-size">4.4GB · Balanced</div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">mistral</div>
+        <div class="model-size">4.1GB · Code/analysis</div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">phi3</div>
+        <div class="model-size">2.2GB · Microsoft Phi-3</div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">deepseek-r1:7b</div>
+        <div class="model-size">4.7GB · Reasoning</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© BlackRoad OS, Inc. — All rights reserved.</p>
+  <p style="margin-top:0.5rem;">
+    <a href="https://github.com/BlackRoad-OS-Inc/blackroad-agents">GitHub</a>
+    · <a href="https://github.com/BlackRoad-OS-Inc/blackroad-agents/issues">Issues</a>
+    · <a href="https://github.com/BlackRoad-OS-Inc/blackroad-agents/blob/main/CONTRIBUTING.md">Contributing</a>
+  </p>
+  <p id="last-updated" style="margin-top:0.5rem; font-size:0.75rem;"></p>
+</footer>
+
+<script>
+  // Dynamic: show last-updated timestamp
+  document.getElementById('last-updated').textContent = 'Page rendered: ' + new Date().toUTCString();
+
+  // Dynamic: check local Ollama health
+  async function checkOllama() {
+    const dot = document.getElementById('status-dot');
+    const text = document.getElementById('status-text');
+    const modelsDiv = document.getElementById('ollama-models');
+    const modelsList = document.getElementById('models-list');
+
+    try {
+      const res = await fetch('http://localhost:11434/api/tags', {
+        signal: AbortSignal.timeout(2000),
+      });
+      if (!res.ok) throw new Error('not ok');
+      const data = await res.json();
+      dot.className = 'online';
+      const models = data.models || [];
+      text.textContent = `Ollama running — ${models.length} model(s) installed`;
+
+      if (models.length > 0) {
+        modelsDiv.style.display = 'block';
+        modelsList.innerHTML = models.map(m => `
+          <div class="model-card">
+            <div class="model-name">${m.name}</div>
+            <div class="model-size">${m.size ? (m.size / 1e9).toFixed(1) + ' GB' : ''}</div>
+          </div>
+        `).join('');
+      }
+    } catch {
+      dot.className = 'offline';
+      text.innerHTML = 'Ollama not detected locally. <a href="https://ollama.com">Install Ollama →</a>';
+    }
+  }
+
+  checkOllama();
+</script>
+
+</body>
+</html>

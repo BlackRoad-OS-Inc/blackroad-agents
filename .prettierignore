@@ -1,0 +1,17 @@
+# Build output
+dist/
+node_modules/
+
+# Generated / large content directories
+alice-worlds/
+worlds/
+agents/
+modelfiles/
+scripts/
+
+# Data files
+*.json
+!package.json
+!tsconfig.json
+!vitest.config.ts
+!.prettierrc
