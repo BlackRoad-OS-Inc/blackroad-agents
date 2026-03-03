@@ -7,7 +7,7 @@ from __future__ import annotations
 import hashlib, os, re, subprocess, httpx
 from pathlib import Path
 
-GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL", "http://127.0.0.1:8787")
+GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL") or os.getenv("OLLAMA_URL", "http://localhost:11434")
 
 SECRET_PATTERNS = [
     (r"['\"]?(api[_-]?key|secret|password|token|api_secret)['\"]?\s*[:=]\s*['\"]?[a-zA-Z0-9\-_]{16,}['\"]?", "credential"),

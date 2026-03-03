@@ -8,7 +8,7 @@ import hashlib, json, os, time
 from pathlib import Path
 import httpx
 
-GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL", "http://127.0.0.1:8787")
+GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL") or os.getenv("OLLAMA_URL", "http://localhost:11434")
 LOCAL_JOURNAL = Path.home() / ".blackroad" / "echo-journal.jsonl"
 
 SYSTEM_PROMPT = """\

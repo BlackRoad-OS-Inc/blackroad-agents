@@ -6,7 +6,7 @@ Type: Worker  Style: Practical, efficient
 from __future__ import annotations
 import os, json, subprocess, httpx
 
-GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL", "http://127.0.0.1:8787")
+GATEWAY_URL = os.getenv("BLACKROAD_GATEWAY_URL") or os.getenv("OLLAMA_URL", "http://localhost:11434")
 
 SYSTEM_PROMPT = """\
 You are ALICE, an executor AI agent in the BlackRoad OS.
