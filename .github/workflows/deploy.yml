@@ -17,7 +17,7 @@ jobs:
     name: Detect & Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Detect deploy type
         id: detect
@@ -43,8 +43,9 @@ jobs:
       - name: Deploy to Railway
         if: steps.detect.outputs.target == 'railway' || inputs.target == 'railway' || inputs.target == 'all'
         run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then echo "Railway deploy skipped (no token)"; exit 0; fi
           if command -v railway &>/dev/null || npm list -g @railway/cli &>/dev/null; then
-            railway up --service "${{ github.event.repository.name }}" 2>/dev/null || echo "Railway deploy skipped (no token)"
+            railway up --service "${{ github.event.repository.name }}" 2>/dev/null || echo "Railway deploy skipped"
           fi
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
@@ -53,8 +54,9 @@ jobs:
       - name: Deploy to Vercel
         if: steps.detect.outputs.target == 'vercel' || inputs.target == 'vercel' || inputs.target == 'all'
         run: |
+          if [ -z "$VERCEL_TOKEN" ]; then echo "Vercel deploy skipped (no token)"; exit 0; fi
           if [ -f "package.json" ]; then
-            npx vercel --prod --yes --token "$VERCEL_TOKEN" 2>/dev/null || echo "Vercel deploy skipped (no token)"
+            npx vercel --prod --yes --token "$VERCEL_TOKEN" 2>/dev/null || echo "Vercel deploy skipped"
           fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
