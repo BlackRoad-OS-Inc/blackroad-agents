@@ -7,7 +7,7 @@ on:
       - 'models/**'
       - 'configs/hf-*.json'
   schedule:
-    - cron: '0 2 * * 0'  # Weekly Sunday 2 AM
+    - cron: '0 2 * * 0' # Weekly Sunday 2 AM
   workflow_dispatch:
     inputs:
       model_id:
@@ -45,14 +45,14 @@ jobs:
           from huggingface_hub import HfApi, create_repo
           api = HfApi(token=os.environ["HF_TOKEN"])
           model_id = os.environ["MODEL_ID"]
-          
+
           # Create or update repo
           try:
               create_repo(model_id, repo_type="model", exist_ok=True, token=os.environ["HF_TOKEN"])
               print(f"✓ Repo ready: {model_id}")
           except Exception as e:
               print(f"Note: {e}")
-          
+
           # Upload model files if present
           if os.path.exists("models"):
               api.upload_folder(
@@ -61,7 +61,7 @@ jobs:
                   repo_type="model",
               )
               print(f"✓ Models uploaded to {model_id}")
-          
+
           # Sync README
           if os.path.exists("README.md"):
               api.upload_file(
@@ -97,7 +97,7 @@ jobs:
           from huggingface_hub import HfApi, create_repo, SpaceStage
           api = HfApi(token=os.environ["HF_TOKEN"])
           space_id = f"blackroad-os/{os.environ.get('ORG_NAME', 'blackroad')}-demo"
-          
+
           try:
               create_repo(space_id, repo_type="space", space_sdk="gradio", exist_ok=True, token=os.environ["HF_TOKEN"])
               print(f"✓ Space ready: https://huggingface.co/spaces/{space_id}")

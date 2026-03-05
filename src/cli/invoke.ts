@@ -12,7 +12,9 @@ export const invokeCommand = new Command('invoke')
     if (!agent) {
       const router = new TaskRouter()
       const decision = router.route({ task })
-      console.log(`Agent "${agentName}" not found. Suggested: ${decision.agent.name} (${decision.reason})`)
+      console.log(
+        `Agent "${agentName}" not found. Suggested: ${decision.agent.name} (${decision.reason})`,
+      )
       return
     }
     console.log(`Invoking ${agent.title} (${agent.name}) with task: ${task}`)

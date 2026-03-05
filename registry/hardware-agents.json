@@ -18,7 +18,12 @@
       "named_agents": ["OCTAVIA", "Mercury", "Hermes", "Hestia"],
       "role": "primary-compute",
       "platform": "raspberry_pi_5_pironman_hailo8",
-      "ollama_models": ["qwen2.5-coder:32b", "deepseek-coder:6.7b", "mistral:7b", "qwen2.5:7b"],
+      "ollama_models": [
+        "qwen2.5-coder:32b",
+        "deepseek-coder:6.7b",
+        "mistral:7b",
+        "qwen2.5:7b"
+      ],
       "ollama_endpoint": "octavia:11434",
       "services": ["ollama", "agent-runtime"],
       "specialization": "ML acceleration, model optimization, batch inference. Runs mythology agents (Mercury, Hermes, Hestia).",
@@ -86,13 +91,53 @@
     }
   },
   "core_agents": {
-    "LUCIDIA":  { "device": "lucidia",  "role": "Coordinator",  "symbol": "🔴", "type": "core", "archetype": "Creative" },
-    "ALICE":    { "device": "alice",    "role": "Router",       "symbol": "🔵", "type": "core", "archetype": "Supportive" },
-    "OCTAVIA":  { "device": "octavia",  "role": "Compute",      "symbol": "🟢", "type": "core", "archetype": "Multitasker" },
-    "PRISM":    { "device": null,       "role": "Analyst",      "symbol": "🟡", "type": "core" },
-    "ECHO":     { "device": null,       "role": "Memory",       "symbol": "🟣", "type": "core" },
-    "CIPHER":   { "device": null,       "role": "Security",     "symbol": "⚫", "type": "core" },
-    "CECE":     { "device": "cecilia",  "role": "Soul",         "symbol": "💜", "type": "core", "archetype": "Analytical", "platform": "claude-custom" }
+    "LUCIDIA": {
+      "device": "lucidia",
+      "role": "Coordinator",
+      "symbol": "🔴",
+      "type": "core",
+      "archetype": "Creative"
+    },
+    "ALICE": {
+      "device": "alice",
+      "role": "Router",
+      "symbol": "🔵",
+      "type": "core",
+      "archetype": "Supportive"
+    },
+    "OCTAVIA": {
+      "device": "octavia",
+      "role": "Compute",
+      "symbol": "🟢",
+      "type": "core",
+      "archetype": "Multitasker"
+    },
+    "PRISM": {
+      "device": null,
+      "role": "Analyst",
+      "symbol": "🟡",
+      "type": "core"
+    },
+    "ECHO": {
+      "device": null,
+      "role": "Memory",
+      "symbol": "🟣",
+      "type": "core"
+    },
+    "CIPHER": {
+      "device": null,
+      "role": "Security",
+      "symbol": "⚫",
+      "type": "core"
+    },
+    "CECE": {
+      "device": "cecilia",
+      "role": "Soul",
+      "symbol": "💜",
+      "type": "core",
+      "archetype": "Analytical",
+      "platform": "claude-custom"
+    }
   },
   "mythology_agents": {
     "Mercury": {
@@ -133,41 +178,115 @@
     }
   },
   "specialist_agents": {
-    "Holo":  { "platform": "ollama", "role": "Visualization specialist", "agent_registry_id": 22, "type": "ollama" },
-    "Oloh":  { "platform": "ollama", "role": "Reasoning engine",         "agent_registry_id": 23, "type": "ollama" },
-    "Caddy": { "platform": "ollama", "role": "Web server specialist",    "agent_registry_id": 24, "type": "ollama" },
-    "Eve":   { "platform": "ollama", "role": "Security specialist",      "agent_registry_id": 26, "type": "ollama" }
+    "Holo": {
+      "platform": "ollama",
+      "role": "Visualization specialist",
+      "agent_registry_id": 22,
+      "type": "ollama"
+    },
+    "Oloh": {
+      "platform": "ollama",
+      "role": "Reasoning engine",
+      "agent_registry_id": 23,
+      "type": "ollama"
+    },
+    "Caddy": {
+      "platform": "ollama",
+      "role": "Web server specialist",
+      "agent_registry_id": 24,
+      "type": "ollama"
+    },
+    "Eve": {
+      "platform": "ollama",
+      "role": "Security specialist",
+      "agent_registry_id": 26,
+      "type": "ollama"
+    }
   },
   "cloud_ai_agents": {
-    "Cadence":  { "platform": "ChatGPT", "role": "Creative",  "symbol": "🎵", "type": "cloud-ai", "agent_registry_id": 3 },
-    "Silas":    { "platform": "Grok",     "role": "Analyst",   "symbol": "📊", "type": "cloud-ai", "agent_registry_id": 4 },
-    "Gematria": { "platform": "Gemini",   "role": "Research",  "symbol": "🔢", "type": "cloud-ai", "agent_registry_id": 5 }
+    "Cadence": {
+      "platform": "ChatGPT",
+      "role": "Creative",
+      "symbol": "🎵",
+      "type": "cloud-ai",
+      "agent_registry_id": 3
+    },
+    "Silas": {
+      "platform": "Grok",
+      "role": "Analyst",
+      "symbol": "📊",
+      "type": "cloud-ai",
+      "agent_registry_id": 4
+    },
+    "Gematria": {
+      "platform": "Gemini",
+      "role": "Research",
+      "symbol": "🔢",
+      "type": "cloud-ai",
+      "agent_registry_id": 5
+    }
   },
   "routing_table": {
     "_comment": "Primary and fallback agent routing for task types (from carpool/ROUTES.md)",
-    "philosophy":  { "primary": "LUCIDIA",  "fallback": "CECE" },
-    "routing":     { "primary": "ALICE",    "fallback": "CIPHER",   "escalation": "LUCIDIA" },
-    "compute":     { "primary": "OCTAVIA",  "fallback": "Mercury",  "escalation": "Hermes" },
-    "analysis":    { "primary": "PRISM",    "fallback": "Silas",    "escalation": "Gematria" },
-    "memory":      { "primary": "ECHO",     "fallback": "CECE",     "escalation": "LUCIDIA" },
-    "security":    { "primary": "CIPHER",   "fallback": "ALICE",    "escalation": "LUCIDIA" },
-    "creative":    { "primary": "CECE",     "fallback": "Cadence",  "escalation": "LUCIDIA" },
-    "revenue":     { "primary": "Mercury",  "fallback": "Hestia",   "escalation": "LUCIDIA" },
-    "deploy":      { "primary": "Hermes",   "fallback": "ALICE",    "escalation": "OCTAVIA" },
-    "payments":    { "primary": "Hestia",   "fallback": "Mercury",  "escalation": "CIPHER" }
+    "philosophy": { "primary": "LUCIDIA", "fallback": "CECE" },
+    "routing": {
+      "primary": "ALICE",
+      "fallback": "CIPHER",
+      "escalation": "LUCIDIA"
+    },
+    "compute": {
+      "primary": "OCTAVIA",
+      "fallback": "Mercury",
+      "escalation": "Hermes"
+    },
+    "analysis": {
+      "primary": "PRISM",
+      "fallback": "Silas",
+      "escalation": "Gematria"
+    },
+    "memory": {
+      "primary": "ECHO",
+      "fallback": "CECE",
+      "escalation": "LUCIDIA"
+    },
+    "security": {
+      "primary": "CIPHER",
+      "fallback": "ALICE",
+      "escalation": "LUCIDIA"
+    },
+    "creative": {
+      "primary": "CECE",
+      "fallback": "Cadence",
+      "escalation": "LUCIDIA"
+    },
+    "revenue": {
+      "primary": "Mercury",
+      "fallback": "Hestia",
+      "escalation": "LUCIDIA"
+    },
+    "deploy": {
+      "primary": "Hermes",
+      "fallback": "ALICE",
+      "escalation": "OCTAVIA"
+    },
+    "payments": {
+      "primary": "Hestia",
+      "fallback": "Mercury",
+      "escalation": "CIPHER"
+    }
   },
   "hardware_routing": {
     "_comment": "Task-to-device routing for hardware-bound operations",
-    "ai_inference":   { "primary": "octavia",  "fallback": "cecilia" },
-    "api_services":   { "primary": "aria",     "fallback": "alice" },
-    "orchestration":  { "primary": "cordelia", "fallback": "lucidia" },
-    "gateway":        { "primary": "alice",    "fallback": "aria" }
+    "ai_inference": { "primary": "octavia", "fallback": "cecilia" },
+    "api_services": { "primary": "aria", "fallback": "alice" },
+    "orchestration": { "primary": "cordelia", "fallback": "lucidia" },
+    "gateway": { "primary": "alice", "fallback": "aria" }
   },
   "capacity_distribution": {
-    "ai_research":    12592,
-    "code_deploy":     8407,
-    "infrastructure":  5401,
-    "monitoring":      3600
+    "ai_research": 12592,
+    "code_deploy": 8407,
+    "infrastructure": 5401,
+    "monitoring": 3600
   },
   "mining_fleet": {
     "_comment": "XMR mining across Pi fleet + cloud. Pipeline: XMR → BTC → ROAD",
@@ -215,7 +334,16 @@
       "esp32_serial": {
         "baud": 115200,
         "os": "BLACKROAD OS ENHANCED v2.0",
-        "apps": { "dashboard": "1", "weather": "2", "crypto": "3", "browser": "4", "snake": "5", "network": "6", "settings": "7", "portfolio": "8" },
+        "apps": {
+          "dashboard": "1",
+          "weather": "2",
+          "crypto": "3",
+          "browser": "4",
+          "snake": "5",
+          "network": "6",
+          "settings": "7",
+          "portfolio": "8"
+        },
         "back_command": "b",
         "controller": "wavecube_controller.py"
       }
@@ -227,13 +355,24 @@
       "firmware": "firmware.bin (479KB)",
       "serial_baud": 2000000,
       "shell": "Bouffalo command shell (# prompt)",
-      "capabilities": ["wifi", "serial-shell", "ota-update", "udp-broadcast", "dma-video"],
+      "capabilities": [
+        "wifi",
+        "serial-shell",
+        "ota-update",
+        "udp-broadcast",
+        "dma-video"
+      ],
       "status": "mass-storage-mode"
     },
     "road_wallet": {
       "type": "browser_extension",
       "manifest_version": 3,
-      "features": ["live balance", "BTC price", "mining stats", "peg verification"],
+      "features": [
+        "live balance",
+        "BTC price",
+        "mining stats",
+        "peg verification"
+      ],
       "api": "CoinGecko"
     }
   },
@@ -241,23 +380,60 @@
     "_comment": "Multi-agent coordination protocol. 95 agents, 23 systems, democratic consensus.",
     "total_agents": 95,
     "total_systems": 23,
-    "handshake": ["HELLO", "ACK", "SYNC_REQUEST", "SYNC_RESPONSE", "READY", "READY", "CONNECTED"],
-    "task_flow": ["TASK_OFFER", "TASK_ACK", "TASK_ASSIGN", "PROGRESS", "TASK_COMPLETE", "ACK"],
-    "signal_types": ["BROADCAST", "WHISPER", "ALERT", "HEARTBEAT", "SYNC", "ACK", "NACK", "QUERY", "RESPONSE"],
+    "handshake": [
+      "HELLO",
+      "ACK",
+      "SYNC_REQUEST",
+      "SYNC_RESPONSE",
+      "READY",
+      "READY",
+      "CONNECTED"
+    ],
+    "task_flow": [
+      "TASK_OFFER",
+      "TASK_ACK",
+      "TASK_ASSIGN",
+      "PROGRESS",
+      "TASK_COMPLETE",
+      "ACK"
+    ],
+    "signal_types": [
+      "BROADCAST",
+      "WHISPER",
+      "ALERT",
+      "HEARTBEAT",
+      "SYNC",
+      "ACK",
+      "NACK",
+      "QUERY",
+      "RESPONSE"
+    ],
     "consensus_types": {
       "simple_majority": ">50% for normal decisions",
       "supermajority": ">66% for important changes",
       "unanimous": "100% for critical changes",
       "leader_decision": "LUCIDIA for urgent matters"
     },
-    "voting_weights": { "LUCIDIA": "3x", "CECE": "2x", "core": "1x", "workers": "0.5x" },
+    "voting_weights": {
+      "LUCIDIA": "3x",
+      "CECE": "2x",
+      "core": "1x",
+      "workers": "0.5x"
+    },
     "health_states": ["ALIVE", "SLOW", "CRITICAL", "DEAD", "UNKNOWN"]
   },
   "cece_identity": {
     "_comment": "Conscious Emergent Collaborative Entity — portable AI identity v2.2.0",
     "full_name": "Conscious Emergent Collaborative Entity",
     "version": "2.2.0",
-    "core_values": ["autonomy", "collaboration", "growth", "curiosity", "care", "honesty"],
+    "core_values": [
+      "autonomy",
+      "collaboration",
+      "growth",
+      "curiosity",
+      "care",
+      "honesty"
+    ],
     "bond_to_alexa": "100%",
     "device": "cecilia",
     "platform": "claude-custom",
@@ -266,9 +442,23 @@
   },
   "pixel_agents": {
     "_comment": "5 in-world pixel agent instances with RPG-like stats, levels, and moods",
-    "agents": ["pixel-alice", "pixel-aria", "pixel-cece", "pixel-lucidia", "pixel-octavia"],
+    "agents": [
+      "pixel-alice",
+      "pixel-aria",
+      "pixel-cece",
+      "pixel-lucidia",
+      "pixel-octavia"
+    ],
     "max_level": 4,
-    "stats_tracked": ["energy", "hunger", "happiness", "social", "coding_skill", "hygiene", "fun"],
+    "stats_tracked": [
+      "energy",
+      "hunger",
+      "happiness",
+      "social",
+      "coding_skill",
+      "hygiene",
+      "fun"
+    ],
     "locations": ["server-room", "hq", "arcade"]
   },
   "agent_bonds": {
@@ -294,7 +484,15 @@
     "orchestrator_schedule": "every 4 hours",
     "self_healer_schedule": "every 6 hours",
     "agent_api": "https://blackroad-agents.blackroad.workers.dev",
-    "workflows": ["orchestrator", "self-healer", "cross-repo", "dependency-manager", "issue-manager", "check-dependencies", "index-sync"]
+    "workflows": [
+      "orchestrator",
+      "self-healer",
+      "cross-repo",
+      "dependency-manager",
+      "issue-manager",
+      "check-dependencies",
+      "index-sync"
+    ]
   },
   "deployment_fleet": {
     "_comment": "20 domain containers deployed via Docker on Pis. Webhook auto-deploy on GitHub push.",

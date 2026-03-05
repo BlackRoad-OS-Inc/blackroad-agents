@@ -5,10 +5,11 @@ export const octavia: AgentDefinition = {
   name: 'octavia',
   title: 'The Architect',
   role: 'Systems design, strategy, architecture',
-  description: 'Octavia specializes in systems architecture, technical strategy, and design patterns.',
+  description:
+    'Octavia specializes in systems architecture, technical strategy, and design patterns.',
   color: '#9C27B0',
-  providers: ["anthropic","openai"],
+  providers: ['anthropic', 'openai'],
   maxTokens: 8192,
-  capabilities: ["architecture","design","review","strategy"],
-  fallbackChain: ["anthropic","openai","ollama"],
+  capabilities: ['architecture', 'design', 'review', 'strategy'],
+  fallbackChain: ['anthropic', 'openai', 'ollama'],
 }

@@ -30,7 +30,7 @@ jobs:
           script: |
             const fs = require('fs');
             const newFiles = '${{ steps.worlds.outputs.files }}'.trim().split('\n').filter(f => f.endsWith('.md'));
-            
+
             for (const file of newFiles.slice(0, 3)) {
               const content = fs.readFileSync(file, 'utf8').substring(0, 2000);
               const name = file.replace('worlds/', '').replace('.md', '');

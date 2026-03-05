@@ -5,7 +5,8 @@ export const echo: AgentDefinition = {
   name: 'echo',
   title: 'The Librarian',
   role: 'Memory, recall, knowledge management',
-  description: 'Echo specializes in memory consolidation, knowledge retrieval, and context management.',
+  description:
+    'Echo specializes in memory consolidation, knowledge retrieval, and context management.',
   color: '#7AC2E0',
   providers: ['anthropic', 'ollama'],
   maxTokens: 4096,

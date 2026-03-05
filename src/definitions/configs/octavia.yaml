@@ -32,7 +32,7 @@ tools:
   - performance_audit
 
 # Memory settings
-memory_limit: 1000  # Max memories to retain
+memory_limit: 1000 # Max memories to retain
 fact_categories:
   - architecture_decisions
   - system_patterns

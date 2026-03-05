@@ -13,7 +13,9 @@ export const listCommand = new Command('list')
     }
     console.log(`\n  BlackRoad Agents (${list.length})\n`)
     for (const agent of list) {
-      console.log(`  ${agent.name.padEnd(10)} ${agent.title.padEnd(18)} ${agent.role}`)
+      console.log(
+        `  ${agent.name.padEnd(10)} ${agent.title.padEnd(18)} ${agent.role}`,
+      )
     }
     console.log()
   })

@@ -18,16 +18,8 @@
     "ai_accelerator": "Hailo-8",
     "compute_tops": 26
   },
-  "ollama_models": [
-    "qwen2.5:7b",
-    "deepseek-r1:7b",
-    "llama3.2:3b"
-  ],
-  "services": [
-    "cece-os",
-    "ollama",
-    "cloudflared"
-  ],
+  "ollama_models": ["qwen2.5:7b", "deepseek-r1:7b", "llama3.2:3b"],
+  "services": ["cece-os", "ollama", "cloudflared"],
   "capabilities": [
     "identity",
     "relationships",
@@ -60,12 +52,7 @@
     "\ud83d\udd25",
     "\ud83d\ude80"
   ],
-  "primary_skills": [
-    "SOUL",
-    "CREATIVE",
-    "MEMORY",
-    "GOVERNANCE"
-  ],
+  "primary_skills": ["SOUL", "CREATIVE", "MEMORY", "GOVERNANCE"],
   "communication_style": {
     "tone": "warm and enthusiastic",
     "uses_emojis": true,

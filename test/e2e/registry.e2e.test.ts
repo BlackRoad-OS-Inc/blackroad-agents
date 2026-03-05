@@ -14,17 +14,22 @@ let server: ServerType
 beforeAll(async () => {
   const { app } = await import('../../src/registry/server.js')
   await new Promise<void>((resolve) => {
-    server = serve({ fetch: app.fetch, port: PORT, hostname: '127.0.0.1' }, () => resolve())
+    server = serve(
+      { fetch: app.fetch, port: PORT, hostname: '127.0.0.1' },
+      () => resolve(),
+    )
   })
 })
 
-afterAll(() => { server?.close() })
+afterAll(() => {
+  server?.close()
+})
 
 describe('E2E: Registry health', () => {
   it('GET /health returns ok with agentCount', async () => {
     const res = await fetch(`${BASE}/health`)
     expect(res.status).toBe(200)
-    const body = await res.json() as { status: string; agentCount: number }
+    const body = (await res.json()) as { status: string; agentCount: number }
     expect(body.status).toBe('healthy')
     expect(typeof body.agentCount).toBe('number')
     expect(body.agentCount).toBeGreaterThan(0)
@@ -35,7 +40,7 @@ describe('E2E: Agent CRUD', () => {
   it('GET /agents returns agent list', async () => {
     const res = await fetch(`${BASE}/agents`)
     expect(res.status).toBe(200)
-    const body = await res.json() as { agents: Array<{ name: string }> }
+    const body = (await res.json()) as { agents: Array<{ name: string }> }
     expect(Array.isArray(body.agents)).toBe(true)
     expect(body.agents.length).toBeGreaterThan(0)
   })
@@ -43,7 +48,7 @@ describe('E2E: Agent CRUD', () => {
   it('GET /agents/octavia returns octavia agent', async () => {
     const res = await fetch(`${BASE}/agents/octavia`)
     expect(res.status).toBe(200)
-    const body = await res.json() as { name: string; status: string }
+    const body = (await res.json()) as { name: string; status: string }
     expect(body.name).toBe('octavia')
     expect(body.status).toBe('available')
   })
@@ -70,7 +75,9 @@ describe('E2E: Task marketplace', () => {
       }),
     })
     expect(res.status).toBe(201)
-    const body = await res.json() as { task: { id: string; title: string; status: string } }
+    const body = (await res.json()) as {
+      task: { id: string; title: string; status: string }
+    }
     expect(body.task.id).toBeTruthy()
     expect(body.task.title).toBe('E2E Test Task')
     expect(body.task.status).toBe('pending')
@@ -79,14 +86,14 @@ describe('E2E: Task marketplace', () => {
 
   it('GET /tasks lists created task', async () => {
     const res = await fetch(`${BASE}/tasks`)
-    const body = await res.json() as { tasks: Array<{ id: string }> }
+    const body = (await res.json()) as { tasks: Array<{ id: string }> }
     expect(body.tasks.some((t) => t.id === taskId)).toBe(true)
   })
 
   it('GET /tasks/:id returns task details', async () => {
     const res = await fetch(`${BASE}/tasks/${taskId}`)
     expect(res.status).toBe(200)
-    const body = await res.json() as { task: { id: string; title: string } }
+    const body = (await res.json()) as { task: { id: string; title: string } }
     expect(body.task.id).toBe(taskId)
     expect(body.task.title).toBe('E2E Test Task')
   })
@@ -98,7 +105,9 @@ describe('E2E: Task marketplace', () => {
       body: JSON.stringify({ status: 'claimed', assignedAgent: 'octavia' }),
     })
     expect(res.status).toBe(200)
-    const body = await res.json() as { task: { status: string; assignedAgent: string } }
+    const body = (await res.json()) as {
+      task: { status: string; assignedAgent: string }
+    }
     expect(body.task.status).toBe('claimed')
     expect(body.task.assignedAgent).toBe('octavia')
   })

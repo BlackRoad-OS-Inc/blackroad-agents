@@ -116,7 +116,15 @@ app.get('/agents/:name', (c) => {
   const name = c.req.param('name')
   const agent = getAgent(name)
   if (!agent) {
-    return c.json({ error: { code: 'AGENT_NOT_FOUND', message: `Agent '${name}' not found` } }, 404)
+    return c.json(
+      {
+        error: {
+          code: 'AGENT_NOT_FOUND',
+          message: `Agent '${name}' not found`,
+        },
+      },
+      404,
+    )
   }
   return c.json({ ...agent, status: 'available' as const })
 })
@@ -127,14 +135,27 @@ app.post('/agents/:name/task', async (c) => {
   const agentName = c.req.param('name')
   const agent = getAgent(agentName)
   if (!agent) {
-    return c.json({ error: { code: 'AGENT_NOT_FOUND', message: `Agent '${agentName}' not found` } }, 404)
+    return c.json(
+      {
+        error: {
+          code: 'AGENT_NOT_FOUND',
+          message: `Agent '${agentName}' not found`,
+        },
+      },
+      404,
+    )
   }
 
   const body = await c.req.json()
   const parsed = TaskRequestSchema.safeParse(body)
   if (!parsed.success) {
     return c.json(
-      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      {
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: parsed.error.issues.map((i) => i.message).join(', '),
+        },
+      },
       400,
     )
   }
@@ -148,7 +169,10 @@ app.post('/agents/:name/task', async (c) => {
     : `Task: ${task}`
 
   const response = await gatewayClient.chat({
-    model: agent.providers[0] === 'ollama' ? 'qwen2.5:7b' : `${agent.providers[0]}-default`,
+    model:
+      agent.providers[0] === 'ollama'
+        ? 'qwen2.5:7b'
+        : `${agent.providers[0]}-default`,
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userMessage },
@@ -172,7 +196,12 @@ app.post('/route', async (c) => {
   const parsed = TaskRequestSchema.safeParse(body)
   if (!parsed.success) {
     return c.json(
-      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      {
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: parsed.error.issues.map((i) => i.message).join(', '),
+        },
+      },
       400,
     )
   }
@@ -198,7 +227,12 @@ app.post('/tasks', async (c) => {
   const parsed = CreateTaskSchema.safeParse(body)
   if (!parsed.success) {
     return c.json(
-      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      {
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: parsed.error.issues.map((i) => i.message).join(', '),
+        },
+      },
       400,
     )
   }
@@ -230,20 +264,33 @@ app.get('/tasks', (c) => {
 // GET /tasks/:id — get single task
 app.get('/tasks/:id', (c) => {
   const task = marketplaceTasks.get(c.req.param('id'))
-  if (!task) return c.json({ error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } }, 404)
+  if (!task)
+    return c.json(
+      { error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } },
+      404,
+    )
   return c.json({ task })
 })
 
 // PATCH /tasks/:id — claim or complete a task
 app.patch('/tasks/:id', async (c) => {
   const task = marketplaceTasks.get(c.req.param('id'))
-  if (!task) return c.json({ error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } }, 404)
+  if (!task)
+    return c.json(
+      { error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } },
+      404,
+    )
 
   const body = await c.req.json()
   const parsed = UpdateTaskSchema.safeParse(body)
   if (!parsed.success) {
     return c.json(
-      { error: { code: 'VALIDATION_ERROR', message: parsed.error.issues.map((i) => i.message).join(', ') } },
+      {
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: parsed.error.issues.map((i) => i.message).join(', '),
+        },
+      },
       400,
     )
   }
@@ -265,7 +312,9 @@ app.patch('/tasks/:id', async (c) => {
 
 if (!process.env['TEST_MODE']) {
   serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
-    console.log(`[blackroad-agents] Registry listening on http://${info.address}:${info.port}`)
+    console.log(
+      `[blackroad-agents] Registry listening on http://${info.address}:${info.port}`,
+    )
     console.log(`[blackroad-agents] ${agents.size} agents loaded`)
   })
 }

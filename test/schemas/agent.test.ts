@@ -27,17 +27,26 @@ describe('AgentDefinitionSchema', () => {
   })
 
   it('should reject negative maxTokens', () => {
-    const result = AgentDefinitionSchema.safeParse({ ...validAgent, maxTokens: -1 })
+    const result = AgentDefinitionSchema.safeParse({
+      ...validAgent,
+      maxTokens: -1,
+    })
     expect(result.success).toBe(false)
   })
 
   it('should reject empty capabilities array', () => {
-    const result = AgentDefinitionSchema.safeParse({ ...validAgent, capabilities: [] })
+    const result = AgentDefinitionSchema.safeParse({
+      ...validAgent,
+      capabilities: [],
+    })
     expect(result.success).toBe(false)
   })
 
   it('should reject empty providers array', () => {
-    const result = AgentDefinitionSchema.safeParse({ ...validAgent, providers: [] })
+    const result = AgentDefinitionSchema.safeParse({
+      ...validAgent,
+      providers: [],
+    })
     expect(result.success).toBe(false)
   })
 })

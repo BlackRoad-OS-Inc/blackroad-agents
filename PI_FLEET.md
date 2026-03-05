@@ -5,38 +5,42 @@
 ## Active Nodes
 
 ### 🟢 aria64 (octavia) — PRIMARY
-| Property | Value |
-|----------|-------|
-| IP | 192.168.4.38 |
-| SSH user | alexa |
-| Hostname | octavia |
-| Hardware | Raspberry Pi 5 + Pironman5 (NVMe) |
-| Storage | 235GB NVMe |
-| RAM | 8GB |
-| Capacity | 22,500 agents |
-| Model | qwen2.5:3b + nomic-embed-text |
-| Status API | :8182 |
-| World count | 12+ (growing) |
+
+| Property    | Value                             |
+| ----------- | --------------------------------- |
+| IP          | 192.168.4.38                      |
+| SSH user    | alexa                             |
+| Hostname    | octavia                           |
+| Hardware    | Raspberry Pi 5 + Pironman5 (NVMe) |
+| Storage     | 235GB NVMe                        |
+| RAM         | 8GB                               |
+| Capacity    | 22,500 agents                     |
+| Model       | qwen2.5:3b + nomic-embed-text     |
+| Status API  | :8182                             |
+| World count | 12+ (growing)                     |
 
 **Services running:**
+
 - `blackroad-world.service` — generates artifacts every 3 min
 - `blackroad-git-worker.service` — pushes to GitHub every 5 min
 - `blackroad-status.service` — telemetry at :8182
 
 ### 🟡 alice — SECONDARY (relay mode)
-| Property | Value |
-|----------|-------|
-| IP | 192.168.4.49 |
-| SSH user | blackroad |
-| Hostname | alice |
-| Hardware | Raspberry Pi 4 |
-| Storage | 15GB (tight, 97% full) |
-| RAM | 3.7GB |
-| Mode | Relay → aria64:11434 |
-| Status API | :8183 |
+
+| Property     | Value                        |
+| ------------ | ---------------------------- |
+| IP           | 192.168.4.49                 |
+| SSH user     | blackroad                    |
+| Hostname     | alice                        |
+| Hardware     | Raspberry Pi 4               |
+| Storage      | 15GB (tight, 97% full)       |
+| RAM          | 3.7GB                        |
+| Mode         | Relay → aria64:11434         |
+| Status API   | :8183                        |
 | Model server | :8790 (108 BlackRoad models) |
 
 **Services running:**
+
 - `blackroad-world.service` — relay world engine → aria64 Ollama
 - `blackroad-models.service` — model registry server (108 models)
 - `blackroad-status.service` — telemetry at :8183
@@ -47,7 +51,7 @@
 # Check fleet status
 br pi status
 
-# Read latest artifact  
+# Read latest artifact
 br pi read aria64
 br pi read alice
 
@@ -85,6 +89,7 @@ br pi logs alice
 ## Node Communication
 
 Nodes can relay inference to each other. Alice uses aria64 as its Ollama backend:
+
 ```
 alice world-engine → POST http://192.168.4.38:11434/api/generate
 ```

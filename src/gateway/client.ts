@@ -3,7 +3,7 @@
 // Agents NEVER hold provider API keys. Trust boundary is the gateway.
 
 export interface ChatMessage {
-  role: "system" | "user" | "assistant"
+  role: 'system' | 'user' | 'assistant'
   content: string
 }
 
@@ -49,16 +49,20 @@ export class GatewayClient {
 
   constructor(agentId: string, gatewayUrl?: string) {
     this.agentId = agentId
-    this.baseUrl = (gatewayUrl ?? process.env["BLACKROAD_GATEWAY_URL"] ?? "http://127.0.0.1:8787").replace(/\/$/, "")
+    this.baseUrl = (
+      gatewayUrl ??
+      process.env['BLACKROAD_GATEWAY_URL'] ??
+      'http://127.0.0.1:8787'
+    ).replace(/\/$/, '')
   }
 
   async chat(request: ChatRequest): Promise<ChatResponse> {
     const res = await fetch(`${this.baseUrl}/v1/chat/completions`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.agentId}`,
-        "X-Agent-Id": this.agentId,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.agentId}`,
+        'X-Agent-Id': this.agentId,
       },
       body: JSON.stringify({
         model: request.model,
@@ -70,9 +74,11 @@ export class GatewayClient {
     })
 
     if (!res.ok) {
-      const err = (await res.json().catch(() => ({}))) as Partial<GatewayErrorBody>
+      const err = (await res
+        .json()
+        .catch(() => ({}))) as Partial<GatewayErrorBody>
       throw new Error(
-        `Gateway error ${res.status}: ${err.message ?? res.statusText}`
+        `Gateway error ${res.status}: ${err.message ?? res.statusText}`,
       )
     }
 
@@ -97,8 +103,8 @@ export class GatewayClient {
   async listModels(): Promise<ModelsResponse> {
     const res = await fetch(`${this.baseUrl}/v1/models`, {
       headers: {
-        "Authorization": `Bearer ${this.agentId}`,
-        "X-Agent-Id": this.agentId,
+        Authorization: `Bearer ${this.agentId}`,
+        'X-Agent-Id': this.agentId,
       },
     })
     if (!res.ok) throw new Error(`Failed to list models: ${res.status}`)
