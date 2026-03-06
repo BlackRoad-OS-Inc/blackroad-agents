@@ -31,11 +31,20 @@ jobs:
       - name: Install HuggingFace Hub
         run: pip install huggingface_hub>=0.20.0
 
+      - name: Check HF token
+        run: |
+          if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+            echo "⚠ HF_TOKEN not set — skipping sync"
+            exit 0
+          fi
+
       - name: Login to HuggingFace
+        if: ${{ secrets.HF_TOKEN != '' }}
         run: |
           python3 -c "from huggingface_hub import login; login(token='${{ secrets.HF_TOKEN }}')"
 
       - name: Sync models to Hub
+        if: ${{ secrets.HF_TOKEN != '' }}
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           MODEL_ID: ${{ github.event.inputs.model_id || 'blackroad-os/blackroad-agents' }}

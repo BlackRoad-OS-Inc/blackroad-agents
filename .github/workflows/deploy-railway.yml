@@ -10,6 +10,7 @@ jobs:
   deploy:
     name: Deploy to Railway
     runs-on: ubuntu-latest
+    if: ${{ secrets.RAILWAY_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
       - run: npm install -g @railway/cli

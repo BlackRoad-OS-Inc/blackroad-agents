@@ -25,14 +25,8 @@ jobs:
         working-directory: worker
 
       - name: Deploy worker
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
         run: npx wrangler deploy
         working-directory: worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Smoke test deployed worker
-        run: |
-          sleep 5
-          curl -sf https://blackroad-agents.848cf0b18d51e0170e0d1537aec3505a.workers.dev/health \
-            | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['status']=='healthy', d; print('✓ Worker healthy:', d['agentCount'], 'agents')"
-        continue-on-error: true

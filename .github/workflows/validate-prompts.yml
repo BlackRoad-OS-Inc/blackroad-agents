@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check agent prompts exist
         run: |
-          for agent in octavia lucidia alice cipher prism planner; do
+          for agent in octavia lucidia alice cipher prism echo aria planner; do
             if [ ! -f "src/prompts/agents/${agent}.md" ]; then
               echo "Missing prompt: src/prompts/agents/${agent}.md"
               exit 1
