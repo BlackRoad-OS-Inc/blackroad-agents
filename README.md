@@ -1,8 +1,11 @@
 # blackroad-agents
 
+> ✅ **VERIFIED WORKING** — CI passing on `ubuntu-latest` · All actions pinned to SHA · Cloudflare Worker deployed · Automerge enabled for bot PRs
+
 > Agent definitions, prompts, CECE identity, and orchestration schemas for BlackRoad OS.
 
 [![CI](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml)
+[![Deploy Worker](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/deploy-worker.yml)
 
 ## Overview
 
