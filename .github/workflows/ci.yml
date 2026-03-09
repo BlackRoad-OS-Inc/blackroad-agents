@@ -12,6 +12,7 @@ on:
     paths-ignore:
       - 'alice-worlds/**'
       - '**/*.md'
+  workflow_dispatch:
 
 jobs:
   lint-test:
