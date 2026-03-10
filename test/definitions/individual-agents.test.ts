@@ -6,9 +6,11 @@ import { alice } from '../../src/definitions/alice.js'
 import { cipher } from '../../src/definitions/cipher.js'
 import { prism } from '../../src/definitions/prism.js'
 import { planner } from '../../src/definitions/planner.js'
+import { echo } from '../../src/definitions/echo.js'
+import { aria } from '../../src/definitions/aria.js'
 import type { AgentDefinition } from '../../src/schemas/agent.js'
 
-const allAgents: AgentDefinition[] = [octavia, lucidia, alice, cipher, prism, planner]
+const allAgents: AgentDefinition[] = [octavia, lucidia, alice, cipher, prism, planner, echo, aria]
 
 describe('Individual agent definitions', () => {
   it('should have unique names', () => {
