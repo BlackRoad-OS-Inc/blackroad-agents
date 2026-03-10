@@ -48,7 +48,7 @@ describe('CLI commands', () => {
     const output = logs.join('')
     const parsed = JSON.parse(output)
     expect(Array.isArray(parsed)).toBe(true)
-    expect(parsed.length).toBe(6)
+    expect(parsed.length).toBe(8)
     expect(parsed[0]).toHaveProperty('name')
     expect(parsed[0]).toHaveProperty('capabilities')
   })
