@@ -25,21 +25,23 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },
-  "engines": { "node": ">=22.0.0" },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "zod": "^3.24.0",
-    "commander": "^13.0.0",
+    "@hono/node-server": "^1.19.11",
     "chalk": "^5.4.0",
+    "commander": "^13.0.0",
     "hono": "^4.7.0",
-    "@hono/node-server": "^1.13.0"
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.7.0",
-    "vitest": "^3.0.0",
+    "prettier": "^3.4.0",
     "tsx": "^4.19.0",
-    "prettier": "^3.4.0"
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   }
 }
