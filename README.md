@@ -1,62 +1,41 @@
+<div align="center">
+
+<img src="https://images.blackroad.io/pixel-art/road-logo.png" alt="BlackRoad OS" width="80" />
+
 # blackroad-agents
 
-> ✅ **VERIFIED WORKING** — CI passing on `ubuntu-latest` · All actions pinned to SHA · Cloudflare Worker deployed · Automerge enabled for bot PRs
+**Agent definitions, prompts, and orchestration schemas for BlackRoad OS.**
 
-> Agent definitions, prompts, CECE identity, and orchestration schemas for BlackRoad OS.
+[![BlackRoad OS](https://img.shields.io/badge/BlackRoad_OS-Pave_Tomorrow-FF2255?style=for-the-badge&labelColor=000000)](https://blackroad.io)
+[![License](https://img.shields.io/badge/License-Proprietary-FF6B2B?style=for-the-badge&labelColor=000000)](./LICENSE)
+[![Edge AI](https://img.shields.io/badge/Edge_AI-52_TOPS-00D4FF?style=for-the-badge&labelColor=000000)](https://github.com/BlackRoad-OS-Inc)
 
-[![CI](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/ci.yml)
-[![Deploy Worker](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/BlackRoad-OS-Inc/blackroad-agents/actions/workflows/deploy-worker.yml)
+</div>
 
-## Overview
-
-Defines the 6 core BlackRoad agents and the CECE portable identity system. All agent configs, prompts, and coordination logic live here.
-
-## Core Agents
-
-| Agent | Role | Color |
-|-------|------|-------|
-| **LUCIDIA** | Philosopher / Coordinator | 🔴 |
-| **ALICE** | Executor / Router | 🔵 |
-| **OCTAVIA** | Operator / Compute | 🟢 |
-| **PRISM** | Analyst / Patterns | 🟡 |
-| **ECHO** | Librarian / Memory | 🟣 |
-| **CIPHER** | Guardian / Security | ⚫ |
-
-## Structure
-
-```
-blackroad-agents/
-├── src/             # Agent runtime source (TypeScript)
-├── agents/          # Per-agent definitions & prompts
-├── coordination/    # Multi-agent coordination logic
-├── registry/        # Agent + hardware registries
-├── scripts/         # Agent utility scripts (RPG, conductor, etc.)
-├── shared/          # Inter-agent messaging (inbox/outbox)
-└── test/            # Test suite
-```
-
-## CECE Identity
-
-`cece-profile.json` defines the portable CECE identity — persistent across providers.
-
-```bash
-br cece whoami         # Show identity
-br cece relationship list  # List relationships
-br cece export         # Export to JSON
-```
-
-## Quick Start
-
-```bash
-npm install
-npm test           # Run tests
-npm run build      # Compile TypeScript
-```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+<div align="center">
+<sub>Part of the <a href="https://blackroad.io">BlackRoad OS</a> ecosystem — sovereign edge AI infrastructure</sub>
+</div>
 
 ---
 
-© BlackRoad OS, Inc. — All rights reserved. Proprietary.
+## Overview
+
+Agent definitions, prompts, and orchestration schemas for BlackRoad OS.
+
+## License
+
+**Proprietary** — Copyright © 2024–2026 [BlackRoad OS, Inc.](https://blackroad.io) All rights reserved.
+
+Founder & CEO: **Alexa Louise Amundson** · Delaware C-Corp
+
+See [LICENSE](./LICENSE) for full terms.
+
+---
+
+<div align="center">
+
+**BlackRoad OS — Pave Tomorrow.**
+
+[blackroad.io](https://blackroad.io) · [GitHub](https://github.com/BlackRoad-OS-Inc) · [Brand](https://brand.blackroad.io)
+
+</div>
